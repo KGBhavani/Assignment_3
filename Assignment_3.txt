@@ -1,0 +1,43 @@
+using namespace std;
+#define X 4
+#define INF INT_MAX
+
+int shortest(int graph[][X], int m, int n, int k)
+{
+
+   if (k == 0 && m == n)
+    return 0;
+   if (k == 1 && graph[m][n] != INF)
+   return graph[m][n];
+   if (k <= 0)
+   return INF;
+
+
+   int res = INF;
+
+
+   for (int i = 0; i < n; i++)
+   {
+       if (graph[m][i] != INF && m != i && n != i)
+       {
+           int rec_res = shortest(graph, i, n, k-1);
+           if (rec_res != INF)
+              res = min(res, graph[m][i] + rec_res);
+       }
+   }
+   return res;
+}
+
+int main()
+{
+
+     int graph[X][X] = { {0, 10, 3, 2},
+                        {INF, 0, INF, 7},
+                        {INF, INF, 0, 6},
+                        {INF, INF, INF, 0}
+                      };
+    int m = 0, n = 3, k = 2;
+    cout << "Weight of the shortest path is" <<
+          shortest(graph, m, n, k);
+    return 0;
+}
